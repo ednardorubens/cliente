@@ -1,0 +1,23 @@
+version: "3.3"
+services:
+  db:
+    container_name: clientedb
+    ports:
+      - "5432:5432"
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_DB=clienteDB
+      - POSTGRES_PASSWORD=postgres
+  api:
+    build: .
+    container_name: clienteapi
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    image: cliente-docker-api:latest
+    environment:
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://clientedb:5432/clienteDB
